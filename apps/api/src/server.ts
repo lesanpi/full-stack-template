@@ -16,6 +16,7 @@ import { Integrations } from '@sentry/node';
 import { schema } from './graphql/schema';
 // import { userRoutes } from '@/components/users/user.routes';
 import mongoose from 'mongoose';
+import { swaggerPlugin } from './plugins/swagger';
 
 global.XMLHttpRequest = xhr2;
 
@@ -61,6 +62,8 @@ export async function createServer() {
     await server.register(helmet);
   }
   // await server.register(cors);
+
+  if (process.env.NODE_ENV !== 'production') await swaggerPlugin(server);
 
   if (process.env.NODE_ENV === 'production') {
     await server.register(sentryPlugin, {
