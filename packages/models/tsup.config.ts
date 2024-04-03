@@ -12,4 +12,5 @@ export default defineConfig({
   shims: true,
   bundle: true,
   skipNodeModulesBundle: true,
+  dts: true,
 });

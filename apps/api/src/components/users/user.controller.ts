@@ -1,9 +1,15 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import { userService } from '@/components/users/user.service';
-import { UserTC } from '@/components/users/user.model';
 
-export const userQueries = Object.freeze({
-  user: UserTC.mongooseResolvers.findOne(),
+async function findOne(request: FastifyRequest, reply: FastifyReply) {
+  return userService.findOne({});
+}
+
+async function findAll(request: FastifyRequest, reply: FastifyReply) {
+  return userService.findAll({});
+}
+
+export const userController = Object.freeze({
+  findOne,
+  findAll,
 });
-
-export const userMutations = Object.freeze({});

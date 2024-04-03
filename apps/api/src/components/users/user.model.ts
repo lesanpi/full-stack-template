@@ -1,7 +1,6 @@
 import { model } from 'mongoose';
 import { hash } from 'argon2';
-import { composeMongoose } from 'graphql-compose-mongoose';
-import { UserDocument, userSchema } from '@avila-tek/models';
+import { userSchema } from '@avila-tek/models';
 
 /**
  * @async
@@ -23,4 +22,3 @@ userSchema.pre('save', async function (next) {
 });
 
 export const User = model('User', userSchema);
-export const UserTC = composeMongoose<UserDocument>(User as any);

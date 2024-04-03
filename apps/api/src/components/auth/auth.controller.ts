@@ -1,29 +1,13 @@
-import { schemaComposer } from 'graphql-compose';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { authService } from '@/components/auth/auth.service';
-import {
-  TSignInInput,
-  SignInPayload,
-  SignInInput,
-} from '@/components/auth/auth.dto';
+import { TSignInInput } from '@/components/auth/auth.dto';
 
-const signIn = schemaComposer.createResolver<
-  any,
-  {
-    data: TSignInInput;
-  }
->({
-  name: 'signIn',
-  description:
-    'This is the method used to sign in a user with email & password',
-  type: SignInPayload,
-  args: {
-    data: SignInInput,
-  },
-  async resolve({ args }) {
-    return authService.signIn(args.data);
-  },
-});
+async function signIn(
+  request: FastifyRequest<{ Body: TSignInInput }>,
+  reply: FastifyReply
+) {
+  // TODO: fix this type here
+  return authService.signIn(request.body as any);
+}
 
-export const authMutations = Object.freeze({
-  signIn,
-});
+export const authController = Object.freeze({ signIn });
