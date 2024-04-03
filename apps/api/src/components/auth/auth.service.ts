@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { TSignInInput } from './auth.dto';
+import { JwtUserIdPayload } from '@/types/JWTTypes';
+import { userService } from '../users/user.service';
 
 /**
  * @async
@@ -32,6 +34,34 @@ async function signIn(data: TSignInInput) {
   };
 }
 
+/**
+ * @async
+ * @function
+ * @description This function returns the user from the jwt token provided
+ * @param data {string} jwt token from the user's login
+ * @requires jsonwebtoken
+ * @returns {IUser} user object
+ * @see user.model
+ * @since 1.0.0
+ * @summary Get Current User
+ * @version 1
+ */
+
+export async function currentUser(token: string) {
+  // Clean the token
+  const cleanToken = token.replace('Bearer ', '');
+
+  // We get the userId from the token
+
+  const payload = jwt.verify(
+    cleanToken,
+    process.env.SECRET!
+  ) as JwtUserIdPayload;
+
+  const user = await userService.findOne(payload._id);
+  return user;
+}
 export const authService = Object.freeze({
   signIn,
+  currentUser,
 });

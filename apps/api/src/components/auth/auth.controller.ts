@@ -6,8 +6,7 @@ async function signIn(
   request: FastifyRequest<{ Body: TSignInInput }>,
   reply: FastifyReply
 ) {
-  // TODO: fix this type here
-  return authService.signIn(request.body as any);
+  return authService.signIn(request.body);
 }
 
 export const authController = Object.freeze({ signIn });

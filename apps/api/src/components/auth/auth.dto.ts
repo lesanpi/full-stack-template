@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 
 export const signInInput = z.object({
   email: z.string().email(),
@@ -6,3 +7,4 @@ export const signInInput = z.object({
 });
 
 export type TSignInInput = z.infer<typeof signInInput>;
+export const signInInputJson = zodToJsonSchema(signInInput, 'signInInputJson');
