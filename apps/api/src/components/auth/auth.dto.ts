@@ -6,15 +6,3 @@ export const signInInput = z.object({
 });
 
 export type TSignInInput = z.infer<typeof signInInput>;
-
-export const SignInPayload = `
-type SignInPayload {
-  user: User!
-  token: String!
-}`;
-
-export const SignInInput = `
-input SignInInput {
-  email: String!
-  password: String!
-}`;
