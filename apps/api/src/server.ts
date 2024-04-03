@@ -11,6 +11,7 @@ import { swaggerPlugin } from './plugins/swagger';
 import { handleError } from './utils/error/handler';
 import { authRouter } from '@/components/auth/auth.routes';
 import { userRouter } from '@/components/users/user.routes';
+import { adminRoutes } from './routes';
 
 global.XMLHttpRequest = xhr2;
 
@@ -74,6 +75,7 @@ export async function createServer() {
   await server.register(authRouter);
   await server.register(userRouter);
 
+  await server.register(adminRoutes);
   await server.ready();
   return server;
 }

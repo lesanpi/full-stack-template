@@ -1,27 +1,48 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
   "globalEnv": [
     "APP_ENV",
     "NODE_ENV",
     "NEXTAUTH_URL",
     "NEXTAUTH_SECRET",
-    "NEXT_PUBLIC_API_URL"
+    "NEXT_PUBLIC_API_URL",
+    "SECRET"
   ],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "@avila-tek/api#build": {
-      "dependsOn": ["@avila-tek/models#build"],
-      "outputs": ["dist/**"]
+      "dependsOn": [
+        "@avila-tek/models#build"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "env": [
+        "APP_ENV",
+        "NODE_ENV"
+      ]
     },
     "@avila-tek/web#build": {
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "dev": {
       "cache": false,
