@@ -3,20 +3,14 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import xhr2 from 'xhr2';
-import sentryPlugin from '@immobiliarelabs/fastify-sentry';
-import { ApolloServer } from '@apollo/server';
-import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import {
-  fastifyApolloDrainPlugin,
-  fastifyApolloHandler,
-} from '@as-integrations/fastify';
-import { ProfilingIntegration } from '@sentry/profiling-node';
-import { Integrations } from '@sentry/node';
-import { schema } from './graphql/schema';
-// import { userRoutes } from '@/components/users/user.routes';
 import mongoose from 'mongoose';
+import sentryPlugin from '@immobiliarelabs/fastify-sentry';
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
+import { Integrations } from '@sentry/node';
 import { swaggerPlugin } from './plugins/swagger';
+import { handleError } from './utils/error/handler';
+import { authRouter } from '@/components/auth/auth.routes';
+import { userRouter } from '@/components/users/user.routes';
 
 global.XMLHttpRequest = xhr2;
 
@@ -45,25 +39,12 @@ export async function createServer() {
     },
   });
 
-  const apollo = new ApolloServer<any>({
-    schema,
-    plugins: [
-      process.env.NODE_ENV === 'production'
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
-      fastifyApolloDrainPlugin(server),
-    ],
-  });
-
-  await apollo.start();
-
   await server.register(rateLimit);
   if (process.env.NODE_ENV === 'production') {
     await server.register(helmet);
+  } else {
+    await swaggerPlugin(server);
   }
-  // await server.register(cors);
-
-  if (process.env.NODE_ENV !== 'production') await swaggerPlugin(server);
 
   if (process.env.NODE_ENV === 'production') {
     await server.register(sentryPlugin, {
@@ -71,7 +52,7 @@ export async function createServer() {
       environment: 'production',
       release: process.env.VERSION,
       integrations: [
-        new ProfilingIntegration(),
+        nodeProfilingIntegration(),
         new Integrations.Apollo(),
         new Integrations.Mongo({ useMongoose: true }),
       ],
@@ -86,14 +67,13 @@ export async function createServer() {
     credentials: true,
   });
 
+  server.setErrorHandler(handleError);
+
   // routes
-  server.route({
-    url: '/graphql',
-    method: ['GET', 'POST', 'OPTIONS'],
-    handler: fastifyApolloHandler(apollo, {
-      context: async (request, reply) => ({ req: request, res: reply }),
-    }),
-  });
+
+  await server.register(authRouter);
+  await server.register(userRouter);
+
   await server.ready();
   return server;
 }
