@@ -2,12 +2,22 @@ import React from 'react';
 import { getUsers } from '@/services/user/queries';
 import ReactQueryClientExample from '@/components/example-connect-backend/ReactQueryClientExample';
 
-async function ReactQuery() {
-  const data = await getUsers();
+const fetchUsers = async () => {
+  try {
+    const data = await getUsers();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
 
+async function ReactQuery() {
+  const data = await fetchUsers();
   return (
     <>
-      Data in Server: {JSON.stringify(data)}
+      <h2 className="font-bold text-2xl">Data in Server:</h2>
+      {JSON.stringify(data)}
       <ReactQueryClientExample users={data} />
     </>
   );
