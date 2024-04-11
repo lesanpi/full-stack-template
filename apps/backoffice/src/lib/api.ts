@@ -13,7 +13,7 @@ export const fetchWrapper = async <DataType>({
   schema = z.any() as z.ZodType<DataType>,
   options = {},
 }: TFetchInput<DataType>): Promise<TFetchOutput<DataType>> => {
-  const response = await fetch(env.NEXT_PUBLIC_API_URL + url, {
+  const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
     ...options,
   });
 
@@ -115,7 +115,7 @@ export const api = {
 };
 
 export const axios = Axios.create({
-  baseURL: env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export const axios = Axios.create({
 });
 
 export const axiosS3 = Axios.create({
-  baseURL: env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'x-amz-acl': 'public-read',
   },
