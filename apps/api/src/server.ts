@@ -1,16 +1,16 @@
+import './instrument';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
 import xhr2 from 'xhr2';
 import mongoose from 'mongoose';
-import sentryPlugin from '@immobiliarelabs/fastify-sentry';
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
-import { Integrations } from '@sentry/node';
+import * as Sentry from '@sentry/node';
 import { swaggerPlugin } from './plugins/swagger';
 import { handleError } from './utils/error/handler';
 import { authRouter } from '@/components/auth/auth.routes';
 import { userRouter } from '@/components/users/user.routes';
+import { healthRoutes } from '@/components/health/health.routes';
 import { adminRoutes } from './routes';
 
 global.XMLHttpRequest = xhr2;
@@ -36,11 +36,19 @@ export async function createServer() {
 
   const server = Fastify({
     logger: {
-      level: 'trace',
+      level: 'info',
     },
   });
 
   await server.register(rateLimit);
+
+  server.addHook('preHandler', function (req, reply, done) {
+    if (req.body) {
+      req.log.info({ body: req.body });
+    }
+    done();
+  });
+
   if (process.env.NODE_ENV === 'production') {
     await server.register(helmet);
   } else {
@@ -48,16 +56,7 @@ export async function createServer() {
   }
 
   if (process.env.NODE_ENV === 'production') {
-    await server.register(sentryPlugin, {
-      dsn: process.env.SENTRY_DSN,
-      environment: 'production',
-      release: process.env.VERSION,
-      integrations: [
-        nodeProfilingIntegration(),
-        new Integrations.Apollo(),
-        new Integrations.Mongo({ useMongoose: true }),
-      ],
-    });
+    Sentry.setupFastifyErrorHandler(server);
   }
 
   // routes
@@ -74,6 +73,7 @@ export async function createServer() {
 
   await server.register(authRouter);
   await server.register(userRouter);
+  await server.register(healthRoutes);
 
   await server.register(adminRoutes);
   await server.ready();

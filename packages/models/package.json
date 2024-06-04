@@ -33,17 +33,17 @@
   "devDependencies": {
     "@avila-tek/eslint-config": "*",
     "@avila-tek/typescript-config": "*",
-    "@turbo/gen": "^1.13.2",
-    "@types/eslint": "^8.56.7",
-    "@types/node": "^20.12.3",
+    "@turbo/gen": "^1.13.3",
+    "@types/eslint": "^8.56.10",
+    "@types/node": "^20.14.1",
     "eslint": "^8.57.0",
-    "mongoose": "^8.2.4",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.3",
-    "zod": "^3.22.4"
+    "mongoose": "^8.4.1",
+    "tsup": "^8.1.0",
+    "typescript": "^5.4.5",
+    "zod": "^3.23.8"
   },
   "dependencies": {
-    "argon2": "0.40.1",
+    "argon2": "0.40.3",
     "slugs": "^0.1.3"
   }
 }
