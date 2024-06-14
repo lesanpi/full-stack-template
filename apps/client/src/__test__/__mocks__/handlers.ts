@@ -1,3 +1,3 @@
-import { handlers as userHandlers } from './handlers/user.mock';
+import { productHandlers } from './handlers/product.mock';
 
-export const handlers = [...userHandlers];
+export const handlers = [...productHandlers];

@@ -1,6 +1,5 @@
 import nextJest from 'next/jest.js';
 import dotenv from 'dotenv';
-import { set } from 'zod';
 
 // load .env.test environment variables
 dotenv.config({ path: '.env.local' });
@@ -15,7 +14,10 @@ const config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  // setupFiles: ['<rootDir>/jest.pollyfils.ts'],
+  setupFiles: ['<rootDir>/jest.polyfills.ts'],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 
   // moduleNameMapper: {
   //   '^uuid$': require.resolve('uuid'),
