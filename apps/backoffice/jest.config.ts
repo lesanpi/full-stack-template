@@ -14,6 +14,10 @@ const config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFiles: ['<rootDir>/jest.polyfills.ts'],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 
   // moduleNameMapper: {
   //   '^uuid$': require.resolve('uuid'),

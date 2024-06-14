@@ -9,9 +9,37 @@ interface ReactQueryClientProps {
 
 function ReactQueryClientExample({ users }: ReactQueryClientProps) {
   // if you need the same query in client and server, you can use initialData
-  const { data, isLoading } = useUsers({});
+  const { data, isLoading, error } = useUsers({});
 
-  return <div>Data in Client: {JSON.stringify(data)}</div>;
+  const [products, setProducts] = React.useState<any>([]);
+
+  React.useEffect(() => {
+    fetch('https://dummyjson.com/products')
+      .then((resp) => resp.json())
+      .then(({ products }) => setProducts(products));
+  }, []);
+
+  return (
+    <div>
+      <h2 className="font-bold text-2xl">Data in Client:</h2>
+      {// Show the user data
+      data?.map((user: any) => {
+        return <p key={user.id}>{user.name}</p>;
+      })}
+      {products.map((prod: any) => {
+        return (
+          <li className="product" key={prod.id}>
+            <div className="card-header">
+              <h1>{prod.title}</h1>
+            </div>
+            <div className="card-content">
+              <p>{prod.description}</p>
+            </div>
+          </li>
+        );
+      })}
+    </div>
+  );
 }
 
 export default ReactQueryClientExample;

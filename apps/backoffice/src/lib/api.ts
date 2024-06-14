@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { env } from 'process';
 import { z } from 'zod';
 
 type TFetchInput<DataType> = {
@@ -15,6 +14,12 @@ export const fetchWrapper = async <DataType>({
 }: TFetchInput<DataType>): Promise<TFetchOutput<DataType>> => {
   const response = await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
     ...options,
+    // add access token if needed
+    // 'x-access-token':
+    //   typeof window !== 'undefined'
+    //     ? localStorage.getItem('token') ?? undefined
+    //     : undefined,
+    // add access token if needed
   });
 
   const data = await response?.json();
@@ -57,13 +62,6 @@ export const api = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // add access token if needed
-          // add access token if needed
-          // 'x-access-token':
-          //   typeof window !== 'undefined'
-          //     ? localStorage.getItem('token') ?? undefined
-          //     : undefined,
-          // add access token if needed
         } as HeadersInit,
       },
     }),
@@ -81,12 +79,6 @@ export const api = {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          // add access token if needed
-          // 'x-access-token':
-          //   typeof window !== 'undefined'
-          //     ? localStorage.getItem('token') ?? undefined
-          //     : undefined,
-          // add access token if needed
         } as HeadersInit,
       },
     }),
@@ -104,11 +96,6 @@ export const api = {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          // add access token if needed
-          // 'x-access-token':
-          //   typeof window !== 'undefined'
-          //     ? localStorage.getItem('token') ?? undefined
-          //     : undefined,
         } as HeadersInit,
       },
     }),
