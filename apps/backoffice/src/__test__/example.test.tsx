@@ -21,12 +21,9 @@ describe('ReactQueryClientExample', () => {
   it('renders user data correctly', async () => {
     render(<ReactQueryClientExample users={[]} />, { wrapper }); // Asegúrate de usar el wrapper aquí
 
-    // Espera a que el texto "Juan" esté en el documento
-    await waitFor(() =>
-      expect(screen.getByText('Leanne Graham')).toBeInTheDocument()
-    );
-
     screen.debug();
+    // Espera a que el texto "Juan" esté en el documento
+    await waitFor(() => expect(screen.getByText('Juan')).toBeInTheDocument());
 
     // Comprueba si el título "iPhone 9" está presente
     expect(screen.getByText('iPhone 9')).toBeInTheDocument();

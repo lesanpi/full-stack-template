@@ -23,7 +23,7 @@ function ReactQueryClientExample({ users }: ReactQueryClientProps) {
     <div>
       <h2 className="font-bold text-2xl">Data in Client:</h2>
       {// Show the user data
-      data?.map((user: any) => {
+      data?.users?.map((user: any) => {
         return <p key={user.id}>{user.name}</p>;
       })}
       {products.map((prod: any) => {
