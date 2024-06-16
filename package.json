@@ -12,13 +12,13 @@
   "devDependencies": {
     "@avila-tek/eslint-config": "*",
     "@avila-tek/typescript-config": "*",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.0",
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20",
+    "npm": ">=10"
   },
-  "packageManager": "npm@9.6.7",
   "workspaces": [
     "apps/*",
     "packages/*"

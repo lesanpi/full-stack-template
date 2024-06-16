@@ -9,7 +9,7 @@ export default defineConfig({
   splitting: false,
   clean: true,
   sourcemap: true,
-  target: 'node18',
+  target: 'node20',
   shims: true,
   bundle: true,
   skipNodeModulesBundle: true,

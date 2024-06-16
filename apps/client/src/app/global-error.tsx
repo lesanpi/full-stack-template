@@ -1,14 +1,10 @@
 'use client';
 
 import * as Sentry from '@sentry/nextjs';
+import Error from 'next/error';
 import { useEffect } from 'react';
 
-type Props = {
-  error: Error & { digest?: string };
-  reset: () => void;
-};
-
-export default function GlobalError({ error, reset }: Props) {
+export default function GlobalError({ error }: any) {
   useEffect(() => {
     Sentry.captureException(error);
   }, [error]);
@@ -16,8 +12,7 @@ export default function GlobalError({ error, reset }: Props) {
   return (
     <html>
       <body>
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <Error statusCode={500} />
       </body>
     </html>
   );
