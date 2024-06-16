@@ -1,17 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, RenderOptions } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
-import { handlers } from '../__mocks__/handlers';
-
-// mock @apollo/experimental-nextjs-app-support/rsc
-jest.mock('@apollo/experimental-nextjs-app-support/rsc', () => ({
-  registerApolloClient: jest.fn(() => ({
-    getClient: jest.fn(() => ({
-      query: jest.fn(),
-    })),
-  })),
-}));
 
 // // -----------------------------------------------------------------------------
 // This file re-exports everything from React Testing Library and then overrides
@@ -25,7 +14,7 @@ jest.mock('@apollo/experimental-nextjs-app-support/rsc', () => ({
 const AllProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <React.Suspense fallback={<div>Loading ...</div>}>
-      <MockedProvider mocks={handlers}>{children}</MockedProvider>
+      {children}
     </React.Suspense>
   );
 };

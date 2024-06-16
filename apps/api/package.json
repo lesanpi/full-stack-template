@@ -9,7 +9,8 @@
     "check:types": "tsc --noEmit",
     "build": "tsup",
     "start": "node dist/index.js",
-    "dev": "tsx watch src .env < NUL| pino-pretty --colorize"
+    "dev": "tsx watch src .env < NUL| pino-pretty --colorize",
+    "test": ""
   },
   "author": "Avila Tek <devops@avilatek.com>",
   "license": "ISC",

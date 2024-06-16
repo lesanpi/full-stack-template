@@ -4,15 +4,6 @@ import { render, RenderOptions } from '@testing-library/react';
 import { QueryProvider } from '@/context/query-context';
 import { QueryClientProvider } from '@tanstack/react-query';
 
-// mock @apollo/experimental-nextjs-app-support/rsc
-jest.mock('@apollo/experimental-nextjs-app-support/rsc', () => ({
-  registerApolloClient: jest.fn(() => ({
-    getClient: jest.fn(() => ({
-      query: jest.fn(),
-    })),
-  })),
-}));
-
 // mock next-auth/react
 jest.mock('next-auth/react', () => {
   const originalModule = jest.requireActual('next-auth/react');

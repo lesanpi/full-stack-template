@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom';
 
-module.exports = {
-  setupFilesAfterEnv: ['jest-fetch-mock'],
-};
+import { server } from '@/__test__/__mocks__/server';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
