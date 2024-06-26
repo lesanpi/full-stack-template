@@ -4,6 +4,7 @@ import type {
   QueryOptions,
   UpdateQuery,
 } from 'mongoose';
+import { log } from '../../axiom/axiom.service';
 import { DniTypeEnum, IUser, User, UserTypeEnum } from './user.model';
 import { paginateModel } from '../../../utils';
 
@@ -20,6 +21,8 @@ export async function find(
   projection?: ProjectionType<IUser> | null,
   options?: QueryOptions<IUser> | null
 ) {
+  log('Message', 'userService.find');
+
   return User.find(filter, projection, options).exec();
 }
 
