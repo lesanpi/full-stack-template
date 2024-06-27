@@ -21,7 +21,12 @@ export async function find(
   projection?: ProjectionType<IUser> | null,
   options?: QueryOptions<IUser> | null
 ) {
-  log('Message', 'userService.find');
+  log({
+    message: 'Message',
+    source: 'userService.find',
+    userEmail: 'info@avilatek.com',
+    userId: 'userId',
+  });
 
   return User.find(filter, projection, options).exec();
 }
