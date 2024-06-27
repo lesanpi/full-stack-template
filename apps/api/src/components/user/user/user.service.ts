@@ -21,14 +21,23 @@ export async function find(
   projection?: ProjectionType<IUser> | null,
   options?: QueryOptions<IUser> | null
 ) {
-  log({
-    message: 'Message',
-    source: 'userService.find',
-    userEmail: 'info@avilatek.com',
-    userId: 'userId',
-  });
-
-  return User.find(filter, projection, options).exec();
+  try {
+    log({
+      message: 'Message',
+      source: 'userService.find',
+      userEmail: 'info@avilatek.com',
+      userId: 'userId',
+    });
+    return User.find(filter, projection, options).exec();
+  } catch (error) {
+    log({
+      message: 'Error find user',
+      source: 'userService.find',
+      userEmail: 'info@avilatek.com',
+      userId: 'userId',
+      error,
+    });
+  }
 }
 
 export async function pagination(

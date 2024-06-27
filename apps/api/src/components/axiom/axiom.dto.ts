@@ -4,4 +4,5 @@ export type TCreateLog = {
   source: string;
   userId?: string;
   userEmail?: string;
+  error?: Error;
 };
